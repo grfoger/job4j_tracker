@@ -95,10 +95,10 @@ public class SqlTrackerTest {
         tracker.add(new Item("two"));
         tracker.add(new Item("three"));
         List<Item> items = tracker.findAll();
-        assertEquals(items.get(0).getName(),"one");
-        assertEquals(items.get(1).getName(),"two");
-        assertEquals(items.get(2).getName(),"three");
-        assertEquals(items.size(),3);
+        assertEquals(items.get(0).getName(), "one");
+        assertEquals(items.get(1).getName(), "two");
+        assertEquals(items.get(2).getName(), "three");
+        assertEquals(items.size(), 3);
     }
 
     @Test
@@ -108,9 +108,9 @@ public class SqlTrackerTest {
         tracker.add(new Item("two"));
         tracker.add(new Item("two"));
         List<Item> items = tracker.findByName("two");
-        assertEquals(items.get(0).getName(),"two");
-        assertEquals(items.get(1).getName(),"two");
-        assertEquals(items.size(),2);
+        assertEquals(items.get(0).getName(), "two");
+        assertEquals(items.get(1).getName(), "two");
+        assertEquals(items.size(), 2);
 
     }
 
