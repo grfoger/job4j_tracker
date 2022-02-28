@@ -39,9 +39,9 @@ public class SqlTracker implements Store, AutoCloseable {
     public Item add(Item item) {
         try (PreparedStatement statement = cn.prepareStatement("insert into items(name, created) values (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
-            statement.setTimestamp(2,Timestamp.valueOf(item.getCreated()));
+            statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             statement.execute();
-            try (ResultSet getId = statement.getGeneratedKeys()){
+            try (ResultSet getId = statement.getGeneratedKeys()) {
                 if (getId.next()) {
                     item.setId(getId.getInt(1));
                 }
@@ -57,7 +57,7 @@ public class SqlTracker implements Store, AutoCloseable {
         boolean isReplaced = false;
         try (PreparedStatement statement = cn.prepareStatement("update items set name = ?, created = ? where id = " + id + ";")) {
             statement.setString(1, item.getName());
-            statement.setTimestamp(2,Timestamp.valueOf(item.getCreated()));
+            statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             isReplaced = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
