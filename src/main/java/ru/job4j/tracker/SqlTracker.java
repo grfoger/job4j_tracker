@@ -51,7 +51,9 @@ public class SqlTracker implements Store, AutoCloseable {
 
     @Override
     public Item add(Item item) {
-        try (PreparedStatement statement = cn.prepareStatement("insert into items(name, created) values (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement statement =
+                     cn.prepareStatement("insert into items(name, created) values (?, ?)",
+                             Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
             statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             statement.execute();
@@ -69,7 +71,8 @@ public class SqlTracker implements Store, AutoCloseable {
     @Override
     public boolean replace(int id, Item item) {
         boolean isReplaced = false;
-        try (PreparedStatement statement = cn.prepareStatement("update items set name = ?, created = ? where id = ?;")) {
+        try (PreparedStatement statement =
+                     cn.prepareStatement("update items set name = ?, created = ? where id = ?;")) {
             statement.setString(1, item.getName());
             statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             statement.setInt(3, id);
@@ -127,7 +130,7 @@ public class SqlTracker implements Store, AutoCloseable {
     @Override
     public Item findById(int id) {
         Item itemById = null;
-        try (PreparedStatement statement = cn.prepareStatement("select * from items where id = ?;")) {
+        try (PreparedStatement statement = cn.prepareStatement("select * from items if id = ?;")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
