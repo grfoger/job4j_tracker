@@ -22,7 +22,7 @@ import static org.junit.Assert.assertThat;
 
 public class SqlTrackerTest {
 
-    static Connection connection;
+    private static Connection connection;
 
     @BeforeClass
     public static void initConnection() {
@@ -64,9 +64,8 @@ public class SqlTrackerTest {
     @Test
     public void whenAddAndReplace() {
         SqlTracker tracker = new SqlTracker(connection);
-        Item item = new Item("item");
+        Item item = tracker.add(new Item("item"));
         Item item1 = new Item("item-one");
-        tracker.add(item);
         tracker.replace(item.getId(), item1);
         assertThat(tracker.findById(item1.getId()), is(item1));
     }
@@ -91,27 +90,21 @@ public class SqlTrackerTest {
     @Test
     public void whenFindAll() {
         SqlTracker tracker = new SqlTracker(connection);
-        tracker.add(new Item("one"));
-        tracker.add(new Item("two"));
-        tracker.add(new Item("three"));
+        Item item1 = tracker.add(new Item("one"));
+        Item item2 = tracker.add(new Item("two"));
+        Item item3 = tracker.add(new Item("three"));
         List<Item> items = tracker.findAll();
-        assertEquals(items.get(0).getName(), "one");
-        assertEquals(items.get(1).getName(), "two");
-        assertEquals(items.get(2).getName(), "three");
-        assertEquals(items.size(), 3);
+        assertEquals(items, List.of(item1, item2, item3));
     }
 
     @Test
     public void whenFindByName() {
         SqlTracker tracker = new SqlTracker(connection);
-        tracker.add(new Item("one"));
-        tracker.add(new Item("two"));
-        tracker.add(new Item("two"));
+        Item item1 = tracker.add(new Item("one"));
+        Item item2 = tracker.add(new Item("two"));
+        Item item3 = tracker.add(new Item("two"));
         List<Item> items = tracker.findByName("two");
-        assertEquals(items.get(0).getName(), "two");
-        assertEquals(items.get(1).getName(), "two");
-        assertEquals(items.size(), 2);
-
+        assertEquals(items, List.of(item2, item3));
     }
 
 }
