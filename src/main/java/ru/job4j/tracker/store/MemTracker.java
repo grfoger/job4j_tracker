@@ -1,5 +1,6 @@
 package ru.job4j.tracker.store;
 
+import ru.job4j.tracker.SqlTracker;
 import ru.job4j.tracker.Store;
 import ru.job4j.tracker.model.Item;
 import java.util.ArrayList;
@@ -67,4 +68,16 @@ public class MemTracker implements Store {
         return index;
     }
 
+    public static void main(String[] args) {
+        MemTracker tracker = new MemTracker();
+        Random random = new Random();
+        int length = 200;
+        for (int i = 0; ; i++) {
+            System.out.println(
+                    tracker.add(new Item(String.valueOf(
+                    (char) random.nextInt(255)).repeat(length)))
+                            .getName()
+            );
+        }
+    }
 }
