@@ -143,13 +143,14 @@ public class SqlTracker implements Store, AutoCloseable {
         return itemById;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SqlTracker tracker = new SqlTracker();
         tracker.init();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; true; i++) {
            int id = tracker.add(new Item("N" + i)).getId();
            System.out.println(tracker.findById(id).getName());
             tracker.delete(id);
+            Thread.sleep(3000);
         }
     }
 }
