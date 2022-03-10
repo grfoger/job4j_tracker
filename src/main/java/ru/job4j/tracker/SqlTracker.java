@@ -146,7 +146,10 @@ public class SqlTracker implements Store, AutoCloseable {
     public static void main(String[] args) {
         SqlTracker tracker = new SqlTracker();
         tracker.init();
-        tracker.replace(2, new Item("ppp"));
-        System.out.println(tracker.findByName("one").toString());
+        for (int i = 0; i < 1000; i++) {
+           int id = tracker.add(new Item("N" + i)).getId();
+           System.out.println(tracker.findById(id).getName());
+            tracker.delete(id);
+        }
     }
 }
