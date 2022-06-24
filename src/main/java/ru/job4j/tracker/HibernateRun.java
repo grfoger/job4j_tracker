@@ -7,6 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.job4j.tracker.model.Item;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class HibernateRun {
@@ -27,6 +28,9 @@ public class HibernateRun {
             for (Item it : list) {
                 System.out.println(it);
             }
+
+            create(new Item(0, "Хиус", item.getCreated(), "Комбинированный планетолёт"), sf);
+            create(new Item(0, "Тахмасиб", item.getCreated(), "Фотонный планетолёт"), sf);
         }  catch (Exception e) {
             e.printStackTrace();
         } finally {
