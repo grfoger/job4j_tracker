@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
 import ru.job4j.tracker.model.Item;
 
 import java.util.List;
@@ -27,29 +28,46 @@ public class HbmTracker implements Store, AutoCloseable {
         return item;
     }
 
+    /*
+    Для реализации replace и delete используйте HQL синтаксис,
+    для возврата boolean будете использовать
+    возвращаемое значение метода executeUpdate
+     */
+
     @Override
     public boolean replace(int id, Item item) {
         Session session = sf.openSession();
         session.beginTransaction();
         item.setId(id);
-        session.update(item);
-        boolean result = item.equals(session.get(Item.class, id));
+
+        Query query = session.createQuery("update Item i set "
+                        + "i.name = :name, "
+                        + "i.created = :created, "
+                        + "i.description = :description "
+                        + "where i.id = :id")
+                .setParameter("name", item.getName())
+                .setParameter("created", item.getCreated())
+                .setParameter("description", item.getDescription())
+                .setParameter("id", id);
+        int result = query.executeUpdate();
+
         session.getTransaction().commit();
         session.close();
-        return result;
+        return result != 0;
     }
 
     @Override
     public boolean delete(int id) {
         Session session = sf.openSession();
         session.beginTransaction();
-        Item item = new Item(null);
-        item.setId(id);
-        session.delete(item);
-        boolean result = session.get(Item.class, id) == null;
+
+        Query query = session.createQuery("delete from Item where id = :id")
+                .setParameter("id", id);
+        int result = query.executeUpdate();
+
         session.getTransaction().commit();
         session.close();
-        return result;
+        return result != 0;
     }
 
     @Override
@@ -89,7 +107,6 @@ public class HbmTracker implements Store, AutoCloseable {
 
     public static void main(String[] args) {
         HbmTracker hbm = new HbmTracker();
-        Item item = new Item("объект3.1");
-        System.out.println(hbm.findById(3));
+        hbm.delete(6);
     }
 }
