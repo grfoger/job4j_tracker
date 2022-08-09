@@ -1,11 +1,14 @@
 package ru.job4j.tracker.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "items")
 public class Item {
@@ -41,59 +44,5 @@ public class Item {
 
     public Item() {
 
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Timestamp getCreated() {
-        return created;
-    }
-
-    public void setCreated(Timestamp created) {
-        this.created = created;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("id: %s, name: %s", id, name);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Item item = (Item) o;
-        return Objects.equals(id, item.id) && Objects.equals(name, item.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
     }
 }

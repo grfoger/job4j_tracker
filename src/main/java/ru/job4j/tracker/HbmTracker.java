@@ -28,11 +28,6 @@ public class HbmTracker implements Store, AutoCloseable {
         return item;
     }
 
-    /*
-    Для реализации replace и delete используйте HQL синтаксис,
-    для возврата boolean будете использовать
-    возвращаемое значение метода executeUpdate
-     */
 
     @Override
     public boolean replace(int id, Item item) {
